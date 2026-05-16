@@ -102,7 +102,7 @@ const CoursesModal = ({ open, onClose, setEnrollOpen }: ICurriculamModal) => {
 
         {/* CTA */}
         <button
-          onClick={() => setEnrollOpen(true)}
+          onClick={() => setEnrollOpen?.(true)}
           className="flex-shrink-0 mt-8 w-full bg-gradient-to-r from-indigo-500 to-purple-500 py-3 rounded-lg"
         >
           Enroll Now
