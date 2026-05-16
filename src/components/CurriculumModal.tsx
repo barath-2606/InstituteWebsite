@@ -40,7 +40,7 @@ const curriculumData = [
 export interface ICurriculamModal {
   open: boolean;
   onClose: () => void;
-  setEnrollOpen?: (open: boolean) => void;
+  setEnrollOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CurriculumModal = ({
