@@ -162,7 +162,7 @@ const LandingPage = () => {
               {/* Button */}
               <button
                 onClick={() => setOpen(true)}
-                className="mt-6 w-full cursor-pointer rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 py-3 text-sm font-medium transition-all duration-300 hover:scale-[1.01]"
+                className="mt-6 w-full cursor-pointer rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 py-3 text-sm font-medium transition-all duration-300 hover:scale-[1.01] cursor-pointer"
               >
                 View Full Curriculum
               </button>

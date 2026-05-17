@@ -180,7 +180,7 @@ const EnrollModal: React.FC<ICurriculamModal> = ({
             <div className="relative border-b border-white/10 px-6 py-5">
               <button
                 onClick={handleOnClose}
-                className="absolute right-5 top-5 rounded-full bg-white/5 p-2 text-gray-400 transition hover:bg-white/10 hover:text-white"
+                className="absolute right-5 top-5 rounded-full bg-white/5 p-2 text-gray-400 transition hover:bg-white/10 hover:text-white cursor-pointer"
               >
                 <X size={18} />
               </button>
@@ -387,7 +387,7 @@ const EnrollModal: React.FC<ICurriculamModal> = ({
               {/* Submit Button */}
               <button
                 type="submit"
-                className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 py-4 font-semibold text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 py-4 font-semibold text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 <span className="relative z-10">
                   Submit Enquiry
