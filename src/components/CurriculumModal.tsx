@@ -64,7 +64,7 @@ const CurriculumModal = ({
         {/* Header */}
         <div className="flex-shrink-0 flex justify-between items-center mb-4 sticky top-0 bg-[#111827] z-10">
           <h2 className="text-2xl font-bold">Course Curriculum</h2>
-          <button onClick={onClose}>✕</button>
+          <button onClick={onClose} className="cursor-pointer">✕</button>
         </div>
 
         {/* Accordion */}
@@ -108,7 +108,7 @@ const CurriculumModal = ({
         {/* CTA */}
         <button
           onClick={() => setEnrollOpen?.(true)}
-          className="flex-shrink-0 mt-6 w-full bg-gradient-to-r from-indigo-500 to-purple-500 py-2 rounded-lg"
+          className="flex-shrink-0 mt-6 w-full bg-gradient-to-r from-indigo-500 to-purple-500 py-2 rounded-lg cursor-pointer"
         >
           Enroll Now
         </button>

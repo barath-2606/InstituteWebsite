@@ -17,24 +17,33 @@ import MSOffice from "../assets/SVGIcons/MSOffice.tsx";
 type Course = {
   name: string;
   icons: (React.FC | string)[];
+  description: string;
 };
 
 const courses: Course[] = [
   {
     name: "Web Development",
     icons: [HTML, CSS, JS, reactIcon],
+    description:
+      "Master modern frontend development by building responsive websites and real-world React applications using HTML, CSS, JavaScript, and React.",
   },
   {
     name: "Backend",
     icons: [C, CPP, Python, Java],
+    description:
+      "Learn programming fundamentals, problem-solving, APIs, and backend development concepts using industry-relevant programming languages.",
   },
   {
     name: "SQL",
     icons: [Mysql, Postgres, MSSQL],
+    description:
+      "Understand databases, write powerful SQL queries, manage data efficiently, and work with real-time database systems used in companies.",
   },
   {
     name: "MS Office & Tally",
     icons: [MSOffice, tallyIcon],
+    description:
+      "Build essential office and accounting skills with MS Office and Tally to improve productivity, reporting, and business management capabilities.",
   },
 ];
 
@@ -72,11 +81,7 @@ export const Courses = () => {
 
               <h3 className="font-semibold text-center my-2">{course.name}</h3>
 
-              <p className="text-sm text-gray-400 mt-3 text-center leading-relaxed">
-                Learn through real-world projects, build practical skills, and
-                gain the confidence needed to crack interviews and succeed in
-                the tech industry.
-              </p>
+              <p className="text-sm text-gray-400 mt-3 text-center leading-relaxed">{course.description}</p>
             </motion.div>
           ))}
         </div>

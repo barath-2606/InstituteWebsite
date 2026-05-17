@@ -1,65 +1,133 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import {
-  X,
-  Clock3,
-  Coffee,
-  CheckCircle2,
-  XCircle,
-} from "lucide-react";
+import { X, Clock3, Coffee, CheckCircle2, XCircle } from "lucide-react";
 
 interface IBatchTimingModal {
   open: boolean;
   onClose: () => void;
 }
 
-const weekdays = [
-  {
-    time: "7:00 AM - 9:00 AM",
-    available: true,
-  },
-  {
-    time: "9:00 AM - 11:00 AM",
-    available: true,
-  },
-  {
-    time: "11:00 AM - 1:00 PM",
-    available: false,
-  },
-  {
-    time: "3:00 PM - 5:00 PM",
-    available: false,
-  },
-  {
-    time: "5:00 PM - 7:00 PM",
-    available: false,
-  },
-  {
-    time: "7:00 PM - 9:00 PM",
-    available: false,
-  },
-];
+const formatTime = (date: Date) => {
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
 
-const weekends = [
-  {
-    time: "10:00 AM - 1:00 PM",
-    available: true,
-  },
-  {
-    time: "3:00 PM - 6:00 PM",
-    available: true,
-  },
-  {
-    time: "6:00 PM - 9:00 PM",
-    available: true,
-  },
-];
+const parseUnavailableSlots = (slots: string) => {
+  return slots
+    .split(",")
+    .filter(Boolean)
+    .map((slot) => slot.trim());
+};
 
-const BatchTiming: React.FC<IBatchTimingModal> = ({
-  open,
-  onClose,
+const isBreakTimeOverlap = (
+  slotStart: Date,
+  slotEnd: Date,
+  breakStart: Date,
+  breakEnd: Date
+) => {
+  return slotStart < breakEnd && slotEnd > breakStart;
+};
+
+const generateBatches = ({
+  startTime,
+  endTime,
+  duration,
+  unavailableSlots,
+  breakStart,
+  breakEnd,
+}: {
+  startTime: string;
+  endTime: string;
+  duration: number;
+  unavailableSlots: string[];
+  breakStart?: string;
+  breakEnd?: string;
 }) => {
+  const slots = [];
+
+  const start = new Date(`2000-01-01 ${startTime}`);
+  const end = new Date(`2000-01-01 ${endTime}`);
+
+
+  let current = new Date(start);
+
+  while (current < end) {
+    const next = new Date(current);
+
+    next.setHours(next.getHours() + duration);
+
+    if (next > end) break;
+
+    // Skip break time slots completely
+    if (
+      isBreakTimeOverlap(
+        current,
+        next,
+        new Date(`2000-01-01 ${breakStart}`),
+        new Date(`2000-01-01 ${breakEnd}`)
+      )
+    ) {
+      current = new Date(`2000-01-01 ${breakEnd}`);
+      continue;
+    }
+
+    const slotKey = `${current
+      .toTimeString()
+      .slice(0, 5)}-${next.toTimeString().slice(0, 5)}`;
+
+    slots.push({
+      time: `${formatTime(current)} - ${formatTime(next)}`,
+      available: !unavailableSlots.includes(slotKey),
+    });
+
+    current = next;
+  }
+
+  return slots;
+};
+
+const weekdays = generateBatches({
+  startTime:
+    import.meta.env.VITE_WEEKDAY_BATCH_START_TIME,
+
+  endTime:
+    import.meta.env.VITE_WEEKDAY_BATCH_END_TIME,
+
+  duration: Number(
+    import.meta.env.VITE_WEEKDAY_BATCH_DURATION
+  ),
+
+  unavailableSlots: parseUnavailableSlots(
+    import.meta.env.VITE_WEEKDAY_UNAVAILABLE_SLOTS
+  ),
+  breakStart: import.meta.env.VITE_BREAK_TIME_START,
+  breakEnd: import.meta.env.VITE_BREAK_TIME_END,
+});
+
+const weekends = generateBatches({
+  startTime:
+    import.meta.env.VITE_WEEKEND_BATCH_START_TIME,
+
+  endTime:
+    import.meta.env.VITE_WEEKEND_BATCH_END_TIME,
+
+  duration: Number(
+    import.meta.env.VITE_WEEKEND_BATCH_DURATION
+  ),
+
+  unavailableSlots: parseUnavailableSlots(
+    import.meta.env.VITE_WEEKEND_UNAVAILABLE_SLOTS
+  ),
+});
+
+console.log("Weekdays", weekdays);
+console.log("Weekends", weekends);
+
+const BatchTiming: React.FC<IBatchTimingModal> = ({ open, onClose }) => {
   if (!open) return null;
 
   return (
@@ -127,9 +195,8 @@ const BatchTiming: React.FC<IBatchTimingModal> = ({
                   </h2>
 
                   <p className="mt-3 text-sm leading-6 text-slate-400">
-                    Choose a suitable batch timing for your daily
-                    schedule. Designed for students and working
-                    professionals.
+                    Choose a suitable batch timing for your daily schedule.
+                    Designed for students and working professionals.
                   </p>
                 </div>
 
@@ -183,16 +250,11 @@ const BatchTiming: React.FC<IBatchTimingModal> = ({
               <div className="mt-6 rounded-3xl border border-orange-500/10 bg-orange-500/5 p-5">
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-orange-500/10">
-                    <Coffee
-                      size={18}
-                      className="text-orange-400"
-                    />
+                    <Coffee size={18} className="text-orange-400" />
                   </div>
 
                   <div>
-                    <p className="font-medium text-orange-300">
-                      Break Time
-                    </p>
+                    <p className="font-medium text-orange-300">Break Time</p>
 
                     <p className="mt-1.5 text-sm text-slate-400">
                       1:00 PM - 3:00 PM
@@ -204,8 +266,7 @@ const BatchTiming: React.FC<IBatchTimingModal> = ({
               {/* Footer */}
               <div className="mt-6 text-center">
                 <p className="text-xs text-slate-500 sm:text-sm">
-                  New batches open every month • Limited seats
-                  available
+                  New batches open every month • Limited seats available
                 </p>
               </div>
             </div>
@@ -232,7 +293,6 @@ const ScheduleCard: React.FC<IScheduleCard> = ({
   status,
   data,
 }) => {
-
   return (
     <div
       className="
@@ -246,14 +306,11 @@ const ScheduleCard: React.FC<IScheduleCard> = ({
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-
           <h3 className="text-left text-xl font-semibold text-white">
             {title}
           </h3>
 
-          <p className="mt-1.5 text-left text-sm text-slate-400">
-            {subtitle}
-          </p>
+          <p className="mt-1.5 text-left text-sm text-slate-400">{subtitle}</p>
         </div>
 
         <div
@@ -304,20 +361,12 @@ const ScheduleCard: React.FC<IScheduleCard> = ({
                   items-center
                   justify-center
                   rounded-xl
-                  ${
-                    item.available
-                      ? "bg-green-500/10"
-                      : "bg-red-500/10"
-                  }
+                  ${item.available ? "bg-green-500/10" : "bg-red-500/10"}
                 `}
               >
                 <Clock3
                   size={16}
-                  className={
-                    item.available
-                      ? "text-green-400"
-                      : "text-red-400"
-                  }
+                  className={item.available ? "text-green-400" : "text-red-400"}
                 />
               </div>
 
@@ -326,9 +375,7 @@ const ScheduleCard: React.FC<IScheduleCard> = ({
                   {item.time}
                 </p>
 
-                <p className="mt-0.5 text-xs text-slate-500">
-                  Live session
-                </p>
+                <p className="mt-0.5 text-xs text-slate-500">Live session</p>
               </div>
             </div>
 
