@@ -45,13 +45,13 @@ export const WhyUs = () => {
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
           <div className="mb-2 inline-flex items-center rounded-full border border-indigo-500/20 bg-indigo-500/10 px-4 py-1.5 text-xs font-medium tracking-wide text-indigo-300">
-            WHY CODERISE
+            WHY {import.meta.env.VITE_COMPANY_NAME.toUpperCase()}
           </div>
 
           <h2 className="mt-5 text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Why Students Choose
             <span className="ml-2 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              CodeRise
+              {import.meta.env.VITE_COMPANY_NAME}
             </span>
           </h2>
 

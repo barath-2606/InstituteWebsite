@@ -8,7 +8,7 @@ const Navbar = () => {
     <>
       <div className="sticky top-0 bg-[#0B0F19]/70 backdrop-blur-xl border-b border-white/10 z-50">
         <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-          <p className="text-lg font-semibold">CodeRise</p>
+          <p className="text-lg font-semibold">{import.meta.env.VITE_COMPANY_NAME}</p>
 
           <div className="hidden md:flex gap-8 text-sm text-gray-300">
             <a href="#courses" className="hover:text-white">
@@ -16,6 +16,12 @@ const Navbar = () => {
             </a>
             <a href="#why" className="hover:text-white">
               Why Us
+            </a>
+            <a href="#batch" className="hover:text-white">
+              Batch
+            </a>
+            <a href="#about" className="hover:text-white">
+              About
             </a>
             <a href="#contact" className="hover:text-white">
               Contact

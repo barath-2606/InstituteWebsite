@@ -4,6 +4,7 @@ import { Courses } from "../Courses.tsx";
 import { WhyUs } from "../WhyUs.tsx";
 import { CTA } from "../CTA.tsx";
 import { Footer } from "../Footer.tsx";
+import { About } from "../About.tsx";
 
 const Home: React.FC = () => {
   return (
@@ -22,6 +23,9 @@ const Home: React.FC = () => {
 
       {/* CTA */}
       <CTA />
+
+      {/* About us */}
+      <About />
 
       {/* FOOTER */}
       <Footer />
