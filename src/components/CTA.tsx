@@ -5,7 +5,7 @@ export const CTA = () => {
   const [enrollOpen, setEnrollOpen] = useState(false);
   return (
     <section
-      id="contact"
+      id="batch"
       className="relative overflow-hidden px-4 py-24 sm:px-6"
     >
       {/* Glow */}
