@@ -84,10 +84,12 @@ const LandingPage = () => {
             </button>
 
             <button
-              onClick={() => setEnrollOpen(true)}
+              onClick={() =>
+                window.open("https://forms.gle/rakDvNGSb7JqSWTm7", "_blank")
+              }
               className="w-full cursor-pointer rounded-xl border border-white/10 bg-white/5 px-8 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-white/10 sm:w-auto"
             >
-              Enroll Now
+              Register Now
             </button>
           </motion.div>
 
